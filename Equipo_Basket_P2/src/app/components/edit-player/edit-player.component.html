@@ -1,0 +1,98 @@
+<div class="modal modalEditar d-block">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header d-flex justify-content-between">
+        <h5 class="modal-title">Editar Jugador</h5>
+        <button type="button" class="btn-close" (click)="cerrarModalEditar()"></button>
+      </div>
+      <div class="modal-body">
+        <form (submit)="guardarCambios()">
+          <div *ngIf="mensaje" class="alert alert-success" role="alert">
+            {{ mensaje }}
+          </div>
+          <!-- Campo Nombre -->
+          <div class="form-group">
+            <label for="name">Nombre:</label>
+            <input
+              type="text"
+              class="form-control"
+              id="name"
+              name="name"
+              [(ngModel)]="player.name"
+            />
+          </div>
+          <!-- Campo Número -->
+          <div class="form-group">
+            <label for="num">Número:</label>
+            <input
+              type="number"
+              class="form-control"
+              id="num"
+              name="num"
+              [(ngModel)]="player.num"
+            />
+          </div>
+          <!-- Campo Posición -->
+          <div class="form-group">
+            <label for="position">Posición:</label>
+            <select
+              class="form-control"
+              id="position"
+              name="position"
+              [(ngModel)]="player.position"
+            >
+              <option *ngFor="let position of positions" [value]="position">
+                {{ position }}
+              </option>
+            </select>
+          </div>
+          <!-- Campo Edad -->
+          <div class="form-group">
+            <label for="age">Edad:</label>
+            <input
+              type="number"
+              class="form-control"
+              id="age"
+              name="age"
+              [(ngModel)]="player.age"
+            />
+          </div>
+          <!-- Campo Anillos NBA -->
+          <div class="form-group">
+            <label for="anillos">Anillos NBA:</label>
+            <input
+              type="number"
+              class="form-control"
+              id="anillos"
+              name="anillos"
+              [(ngModel)]="player.anillos"
+            />
+          </div>
+          <!-- Campo Descripción -->
+          <div class="form-group">
+            <label for="description">Descripción:</label>
+            <textarea
+              class="form-control"
+              id="description"
+              name="description"
+              rows="3"
+              [(ngModel)]="player.description"
+            ></textarea>
+          </div>
+          <!-- Campo Ruta de la Imagen -->
+          <div class="form-group">
+            <label>Ruta de la Foto (assets/images/...):</label>
+            <input type="text" class="form-control" name="img" [(ngModel)]="player.img" />
+          </div>
+          <!-- Campo Ruta del Video -->
+          <div class="form-group">
+            <label>Ruta del Video (assets/videos/...):</label>
+            <input type="text" class="form-control" name="video" [(ngModel)]="player.video" />
+          </div>
+          <!-- Botón para guardar cambios -->
+          <button type="submit" class="btn btn-primary w-100 p-2 mt-3">Guardar Cambios</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
