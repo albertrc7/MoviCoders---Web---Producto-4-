@@ -6,7 +6,7 @@ import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
 import { getFirestore, provideFirestore } from '@angular/fire/firestore';
 import { getMessaging, provideMessaging } from '@angular/fire/messaging';
 import { getStorage, provideStorage } from '@angular/fire/storage';
-import { environment } from '../environments/environment'; // Ajusta la ruta según tu estructura
+import { environment } from '../environments/environment'; 
 
 export const appConfig: ApplicationConfig = {
   providers: [

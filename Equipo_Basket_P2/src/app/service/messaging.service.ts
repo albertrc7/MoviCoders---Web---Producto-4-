@@ -1,32 +1,38 @@
 import { Injectable } from '@angular/core';
-import { AngularFireMessaging } from '@angular/fire/compat/messaging';
-import { BehaviorSubject } from 'rxjs';
-import { MessagePayload } from 'firebase/messaging'; // Importar el tipo MessagePayload
+import { getMessaging, getToken, onMessage } from 'firebase/messaging';
+import { environment } from '../../environments/environment';
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
-export class MessagingService {
-  private messageSource = new BehaviorSubject<MessagePayload | null>(null); // Especificar tipo MessagePayload | null
-  currentMessage = this.messageSource.asObservable();
+export class FirebaseMessagingService {
 
-  constructor(private afMessaging: AngularFireMessaging) {}
-
-  requestPermission() {
-    this.afMessaging.requestToken.subscribe(
-      (token) => {
-        console.log('Token recibido:', token);
-      },
-      (error) => {
-        console.error('Error al solicitar el token:', error);
-      }
-    );
+  constructor() {
+    this.initializeMessaging();
   }
 
-  receiveMessage() {
-    this.afMessaging.messages.subscribe((message) => {
-      console.log('Notificación recibida:', message);
-      this.messageSource.next(message);
+  private messaging: any;
+
+  private initializeMessaging() {
+    this.messaging = getMessaging();
+
+    // Obtener el token del dispositivo
+    getToken(this.messaging, { vapidKey: environment.firebaseVapidKey })
+      .then((currentToken: string) => {
+        if (currentToken) {
+          console.log('Token de FCM: ', currentToken);
+          // Enviar este token a tu servidor para enviar notificaciones a este dispositivo
+        } else {
+          console.log('No se pudo obtener el token');
+        }
+      }).catch((err: any) => {
+        console.error('Hubo un error al obtener el token: ', err);
+      });
+
+    // Escuchar mensajes cuando la aplicación está en primer plano
+    onMessage(this.messaging, (payload: any) => {
+      console.log('Mensaje recibido en primer plano: ', payload);
+      // Aquí puedes manejar cómo mostrar las notificaciones dentro de tu app
     });
   }
 }
